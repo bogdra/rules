@@ -183,3 +183,27 @@ public function getUserId(): int {
     return $this->userId;
 }
 ```
+
+## Guard Clauses with `continue`
+
+description: "In loops, handle the negative case first with early `continue`. Keep the happy path at lower nesting. Avoid deep `if/else` blocks inside loops:"
+alwaysApply: true
+
+```php
+// Good
+foreach ($items as $key => $item) {
+    if (! $item->isValid()) {
+        continue;
+    }
+
+    $this->process($item);
+}
+
+// Bad
+foreach ($items as $key => $item) {
+    if ($item->isValid()) {
+        $this->process($item);
+    }
+}
+```
+

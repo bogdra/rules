@@ -146,3 +146,121 @@ if (! isset($data['email'])) {
 if (!$user->isActive()) { }
 if (!isset($data['email'])) { }
 ```
+
+---
+description: "Null Coalescing for Defaults"
+alwaysApply: true
+---
+
+Prefer `??` over `isset()` ternaries. Use type-appropriate defaults:
+- `?? null` for optional objects
+- `?? ''` for strings
+- `?? 0` for integers
+- `?? []` for arrays
+
+**Example:**
+```php
+// Good
+$method = $deliveryMethods[$vendorId] ?? null;
+$name = $productsInfo['vendors'][$id] ?? '';
+
+// Bad
+$method = isset($deliveryMethods[$vendorId]) ? $deliveryMethods[$vendorId] : null;
+```
+
+---
+description: "Naming: camelCase Variables, snake_case Array Keys"
+alwaysApply: true
+---
+
+Variables use camelCase. Array keys use snake_case:
+**Example:**
+```php
+// Good
+$deliveryVendorId = 123;
+$line['vendor_name'] = 'Acme';
+
+// Bad
+$delivery_vendor_id = 123;
+$line['vendorName'] = 'Acme';
+```
+
+---
+description: "Non-Capturing Catches"
+alwaysApply: true
+---
+
+When the exception object is not used, omit the variable name (PHP 8.0+):
+**Example:**
+```php
+// Good
+catch (Throwable) {
+    Log::error("Something failed");
+}
+
+// Bad
+catch (Throwable $e) {
+    Log::error("Something failed");
+}
+```
+
+---
+description: "Guard Clauses with `continue`"
+alwaysApply: true
+---
+
+In loops, handle the negative case first with early `continue`. Keep the happy path at lower nesting. Avoid deep `if/else` blocks inside loops:
+**Example:**
+```php
+// Good
+foreach ($items as $key => $item) {
+    if (! $item->isValid()) {
+        continue;
+    }
+
+    $this->process($item);
+}
+
+// Bad
+foreach ($items as $key => $item) {
+    if ($item->isValid()) {
+        $this->process($item);
+    }
+}
+```
+
+## Prefer array_map / array_filter over foreach
+
+Use `array_map` and `array_filter` for transformations and filtering. Reserve `foreach` for side effects or complex multi-output logic.
+
+```php
+// Good: array_map for transformation
+$orderTotals = array_map(
+    fn(Order $order) => $order->getTotal(),
+    $orders,
+);
+
+// Bad: foreach just to build a transformed array
+$orderTotals = [];
+foreach ($orders as $order) {
+    $orderTotals[] = $order->getTotal();
+}
+```
+
+```php
+// Good: array_filter for selection
+$activeUsers = array_filter(
+    $users,
+    fn(User $user) => $user->isActive(),
+);
+
+// Bad: foreach just to filter
+$activeUsers = [];
+foreach ($users as $user) {
+    if ($user->isActive()) {
+        $activeUsers[] = $user;
+    }
+}
+```
+
+`foreach` is still appropriate for side effects (persisting, logging) or when the loop body produces multiple outputs or requires early exit.
