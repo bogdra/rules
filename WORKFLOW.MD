@@ -3,6 +3,41 @@
 # ========================================
 
 ---
+description: "Store .md files in .idea; ensure .idea is in .gitignore"
+alwaysApply: true
+---
+
+Always add `.md` files in the `.idea` folder. If it does not exist, create it and ensure `.idea` is listed in `.gitignore`.
+
+---
+description: "Use local PHPUnit when project has none installed"
+alwaysApply: true
+---
+
+When you need to run unit tests during development and the project does not have PHPUnit installed, use the locally installed PHPUnit at `~/Work/Dev/Tool/phpuni`.
+
+---
+description: "Translations are managed elsewhere - do not edit .xlf directly"
+alwaysApply: true
+---
+
+Do not add translations directly in `.xlf` files. Translations will be added from a separate section.
+
+---
+description: "Report model and token usage after auto mode processing"
+alwaysApply: true
+---
+
+When using auto mode, after finishing processing, reply with which model was used and the token usage.
+
+---
+description: "Ask for clarification when not at least 95% sure"
+alwaysApply: true
+---
+
+Always ask for clarification if you are not at least 95% sure of an assumption. Assume very little and double-check any assumption.
+
+---
 description: "Clean plugin boundaries - separate routing from business logic"
 alwaysApply: true
 ---
