@@ -3,6 +3,48 @@
 # ========================================
 
 ---
+description: "Use class constants instead of magic strings for domain values"
+globs: "**/*.php"
+alwaysApply: false
+---
+
+When working with delivery methods, delivery modes, or any domain-specific string values, use the defined constants from the appropriate transformer or service class instead of hardcoded strings.
+
+**Example:**
+```php
+// Bad — uses magic strings
+$subcartDeliveryMethods[$vendorKey] = 'electronic';
+$subcartDeliveryMethods['pickup'] = $method;
+$subcartDeliveryMethods[$vendorKey] = 'courier';
+
+// Good — uses constants
+$subcartDeliveryMethods[$vendorKey] = DeliveryMethodTransformer::DELIVERY_MODE_ELECTRONIC;
+$subcartDeliveryMethods[DeliveryMethodTransformer::DELIVERY_MODE_PICKUP] = $method;
+$subcartDeliveryMethods[$vendorKey] = DeliveryMethodTransformer::DELIVERY_MODE_HOME;
+```
+
+---
+description: "Omit exception variable in catch when unused (PHP 8.0+ non-capturing catches)"
+globs: "**/*.php"
+alwaysApply: false
+---
+
+When the exception object is not used, omit the variable name (PHP 8.0+).
+
+**Example:**
+```php
+// Good
+catch (Throwable) {
+    Log::error("Something failed");
+}
+
+// Bad
+catch (Throwable $e) {
+    Log::error("Something failed");
+}
+```
+
+---
 description: "Use match expressions for complex conditionals"
 alwaysApply: true
 ---
