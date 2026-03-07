@@ -72,27 +72,6 @@ class UserService {
 ```
 
 ---
-description: "Required commit message format with task IDs"
-alwaysApply: true
----
-
-All commits must include task ID in uppercase with descriptive present-tense message.
-
-**Format:** `[{TASK-ID}] - {descriptive message}`
-
-**Examples:**
-```
-[EOSMKP-170113] - Add site module off switch for ShippingTaxProgressBar functionality
-[EOSMKP-123456] - Fix user authentication timeout handling
-[EOSMKP-789012] - Update product listing pagination to support infinite scroll
-```
-
-**Rules:**
-- Task ID must be uppercase (EOSMKP-170113, not eosmkp-170113)
-- Use present tense ("Add", "Fix", "Update" not "Added", "Fixed", "Updated")
-- Be specific about what changes ("Add user validation" not "Update user stuff")
-
----
 description: "Planning and review process for code changes"
 alwaysApply: true
 ---
