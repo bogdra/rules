@@ -14,7 +14,7 @@ description: "Use local PHPUnit when project has none installed"
 alwaysApply: true
 ---
 
-When you need to run unit tests during development and the project does not have PHPUnit installed, use the locally installed PHPUnit at `~/Work/Dev/Tool/phpuni`.
+When you need to run unit tests during development and the project does not have PHPUnit installed, use the locally installed PHPUnit at `~/Work/Dev/Tool/phpunit`.
 
 ---
 description: "Translations are managed elsewhere - do not edit .xlf directly"
