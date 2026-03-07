@@ -4,8 +4,7 @@
 
 ---
 description: "Use class constants instead of magic strings for domain values"
-globs: "**/*.php"
-alwaysApply: false
+alwaysApply: true
 ---
 
 When working with delivery methods, delivery modes, or any domain-specific string values, use the defined constants from the appropriate transformer or service class instead of hardcoded strings.
@@ -25,8 +24,7 @@ $subcartDeliveryMethods[$vendorKey] = DeliveryMethodTransformer::DELIVERY_MODE_H
 
 ---
 description: "Omit exception variable in catch when unused (PHP 8.0+ non-capturing catches)"
-globs: "**/*.php"
-alwaysApply: false
+alwaysApply: true
 ---
 
 When the exception object is not used, omit the variable name (PHP 8.0+).
