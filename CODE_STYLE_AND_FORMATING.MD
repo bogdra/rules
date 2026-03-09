@@ -3,6 +3,51 @@
 # ========================================
 
 ---
+description: Mermaid diagram syntax to avoid UnknownDiagramError and parser issues
+alwaysApply: false
+---
+
+# Mermaid diagrams in Markdown
+
+## Diagram type declaration
+
+- **Use `graph` for flowcharts**, not `flowchart`. Some renderers (e.g. Mermaid in Cursor/IDE) can misparse `flowchart` and report "UnknownDiagramError: No diagram type detected... for text: lowchart TB" because the leading `f` is dropped. The keyword `graph` is the valid Mermaid alias and avoids this.
+- **First line inside the code block must be the diagram declaration only**: no leading space, no BOM, no invisible characters. Start the line with the diagram type.
+- **Valid diagram types**: `graph`, `flowchart` (prefer `graph`), `sequenceDiagram`, `classDiagram`, `stateDiagram`, `erDiagram`, `journey`, `gantt`, `pie`, etc. Spell them exactly.
+
+## Correct pattern
+
+```markdown
+```mermaid
+graph TB
+    A --> B
+```
+```
+
+## Avoid
+
+```markdown
+```mermaid
+flowchart TB
+```
+```
+(Can trigger UnknownDiagramError in some viewers.)
+
+```markdown
+```mermaid
+
+flowchart TB
+```
+```
+(Leading newline or space can break detection.)
+```
+
+## Summary
+
+- Prefer **`graph TB`** (or `graph LR`, etc.) instead of `flowchart TB` for flowcharts.
+- Keep the first line of the diagram as a single declaration: `graph TB`, `sequenceDiagram`, etc., with no leading whitespace.
+
+---
 description: "PHP coding style to avoid PHP_CodeSniffer violations (PSR-12)"
 alwaysApply: false
 ---
