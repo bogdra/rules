@@ -3,6 +3,18 @@
 # ========================================
 
 ---
+description: "PHP coding style to avoid PHP_CodeSniffer violations (PSR-12)"
+alwaysApply: false
+---
+
+- Newline after opening brace `{`; closing brace `}` on its own line.
+- No blank line immediately after opening brace of control structure.
+- At least one space before and after `.` (concatenation) and `??` (null coalescing).
+- `case` keyword must be followed by a single space.
+- Multi-line function calls: continuation lines must align with opening parenthesis or first argument; use 4 spaces per indent level.
+- Header blocks: single blank line between `use` statements or docblocks, not multiple.
+
+---
 description: "Use class constants instead of magic strings for domain values"
 alwaysApply: true
 ---
