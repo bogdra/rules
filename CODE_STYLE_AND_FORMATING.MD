@@ -3,6 +3,73 @@
 # ========================================
 
 ---
+description: Enforce correct Cursor rule format when creating or editing rules (per cursor.com/docs/rules)
+globs: ".cursor/rules/**"
+alwaysApply: false
+---
+
+# Cursor Rule Format
+
+When asked to create a new rule or when editing files in `.cursor/rules/`, follow the [Cursor Rules documentation](https://cursor.com/docs/rules).
+
+## File location and extension
+
+- **Path:** `.cursor/rules/` (optionally in subfolders, e.g. `frontend/components.md`).
+- **Extension:** `.md` (plain markdown) or `.mdc` (markdown with frontmatter for `description` and `globs`). Use `.mdc` when you need path-based or always-apply control.
+
+## Frontmatter (for .mdc rules)
+
+YAML between `---` at the top of the file:
+
+```yaml
+---
+description: "Brief description (shown in rule picker; used for Apply Intelligently)"
+globs: "**/*.ts"   # optional; for Apply to Specific Files
+alwaysApply: false # true = Apply to every chat session
+---
+```
+
+| Rule type (dropdown)     | Frontmatter |
+|--------------------------|-------------|
+| Always Apply             | `alwaysApply: true` |
+| Apply Intelligently      | `alwaysApply: false`, set `description` |
+| Apply to Specific Files  | `alwaysApply: false`, set `globs` (e.g. `**/*.ts`, `**/*.md`) |
+| Apply Manually           | `alwaysApply: false`; rule is applied when @-mentioned in chat |
+
+If `alwaysApply` is false and no `globs` is set, the rule is applied when the Agent decides it is relevant (using `description`) or when invoked manually.
+
+## Body (content)
+
+- **Title:** One H1 at the top (e.g. `# Rule Title`).
+- **Length:** Keep under 500 lines; split into multiple rules if larger.
+- **Focus:** One main concern per rule; composable rules over one huge rule.
+- **Actionable:** Write like clear internal docs. Avoid vague guidance.
+- **Examples:** Provide concrete examples or reference files with `@filename.ext` instead of pasting large blocks.
+- **References:** Prefer pointing to canonical examples in the codebase over copying code into the rule.
+
+## Best practices (from docs)
+
+- Encode domain-specific knowledge or project-specific workflows.
+- Standardize style or architecture decisions.
+- Include concrete examples or referenced files.
+- Reuse rules when repeating prompts in chat.
+
+## Avoid in rules
+
+- Copying entire style guides (use a linter instead).
+- Documenting every possible command (Agent knows common tools).
+- Instructions for rare edge cases; keep rules focused on frequent patterns.
+- Duplicating what is already in the codebase; point to canonical examples.
+
+## Checklist when creating a new rule
+
+- [ ] File is in `.cursor/rules/` with extension `.md` or `.mdc`.
+- [ ] If `.mdc`: frontmatter has `description` and `alwaysApply`; add `globs` for file-scoped application.
+- [ ] Body has one H1 title and is focused and actionable (under 500 lines).
+- [ ] Concrete examples or `@file` references included where they help.
+- [ ] Rule is checked into git so the team can use it.
+
+---
 description: Mermaid diagram syntax to avoid UnknownDiagramError and parser issues
 alwaysApply: false
 ---
@@ -14,15 +81,18 @@ alwaysApply: false
 - **Use `graph` for flowcharts**, not `flowchart`. Some renderers (e.g. Mermaid in Cursor/IDE) can misparse `flowchart` and report "UnknownDiagramError: No diagram type detected... for text: lowchart TB" because the leading `f` is dropped. The keyword `graph` is the valid Mermaid alias and avoids this.
 - **First line inside the code block must be the diagram declaration only**: no leading space, no BOM, no invisible characters. Start the line with the diagram type.
 - **Valid diagram types**: `graph`, `flowchart` (prefer `graph`), `sequenceDiagram`, `classDiagram`, `stateDiagram`, `erDiagram`, `journey`, `gantt`, `pie`, etc. Spell them exactly.
+- **Use `graph` for flowcharts**, not `flowchart`. Some renderers drop the leading "f" and report "UnknownDiagramError... for text: lowchart TB". The keyword `graph` is the valid Mermaid alias.
+- **First line inside the code block**: diagram declaration only. No leading newline, space, or BOM.
+- **Valid types**: `graph`, `sequenceDiagram`, `classDiagram`, `stateDiagram`, `erDiagram`, `journey`, `gantt`, `pie`. For flowcharts use `graph TB` or `graph LR`.
 
 ## Correct pattern
 
-```markdown
 ```mermaid
 graph TB
     A --> B
 ```
-```
+
+First line after the mermaid fence: `graph TB` then your nodes/edges.
 
 ## Avoid
 
